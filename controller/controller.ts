@@ -21,7 +21,11 @@ class Controller {
             const hashPassword = bcrypt.hashSync(password, saltForHash);
             const user = new User({ username, email, password: hashPassword });
             await user.save();
-            return res.json({ message: "User created successfully" });
+            return res.json({
+                message: "User created successfully",
+                username: username,
+                email: email,
+            });
         } catch (err: any) {
             console.log(err);
             res.status(400).json({ message: err.message });
@@ -45,7 +49,7 @@ class Controller {
             }
 
             const token = generateAccessToken(user._id, user.email);
-            return res.json({ token: `Bearer ${token}` });
+            return res.json({ email: email, token: `Bearer ${token}` });
         } catch (err: any) {
             console.log(err);
             res.status(400).json({ message: err.message });
@@ -55,19 +59,34 @@ class Controller {
     async getAllUsers(req: any, res: any) {
         try {
             const users = await User.find();
-            res.json(users);
-
-        } catch (err) {}
+            res.status(200).json(users);
+        } catch (err) {
+            return res.status(500).json({ message: "Something went wrong" });
+        }
     }
 
     async updateUser(req: any, res: any) {
+        if (req.body.status !== 0) {
+            res.user.status = req.body.status;
+        }
         try {
-        } catch (err) {}
+            const updatedUser = await res.user.save();
+            res.status(200).json({
+                message: "Successfully updated",
+                user: updatedUser,
+            });
+        } catch (err) {
+            return res.status(500).json({ message: "Something went wrong" });
+        }
     }
 
     async deleteUser(req: any, res: any) {
         try {
-        } catch (err) {}
+            await res.user.remove();
+            res.status(200).json({ message: "Successfully deleted" });
+        } catch (err) {
+            return res.status(500).json({ message: "Something went wrong" });
+        }
     }
 }
 

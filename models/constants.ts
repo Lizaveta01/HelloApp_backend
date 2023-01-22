@@ -1,1 +1,1 @@
-export const saltForHash = 9; 
+export const saltForHash = 9;
