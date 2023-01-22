@@ -1,6 +1,6 @@
 import User from "../models/user";
 import bcrypt from "bcryptjs";
-import { saltForHash } from "../models/constants";
+import { saltForHash } from "../constants";
 import { validationResult } from "express-validator";
 import { generateAccessToken } from "../utils/generateAccessToken";
 

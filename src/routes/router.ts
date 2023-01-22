@@ -1,8 +1,8 @@
 import express from "express";
-import Controller from "./controller/controller";
+import Controller from "../controller/controller";
 import { check } from "express-validator";
-import { authMiddleware } from "./middleware/authMiddleware";
-import { getUserMiddleware } from "./middleware/getUserMiddleware";
+import { authMiddleware } from "../middleware/authMiddleware";
+import { getUserMiddleware } from "../middleware/getUserMiddleware";
 
 const router = express.Router();
 

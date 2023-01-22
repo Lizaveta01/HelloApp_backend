@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
-import { secret } from "../config";
+import { secret } from "../constants";
+
 
 export const authMiddleware = (req: any, res: any, next: any) => {
     if (req.method === "OPTIONS") {
