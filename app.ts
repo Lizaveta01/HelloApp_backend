@@ -1,8 +1,25 @@
-import express from 'express';
-import mysqli from 'mysql';
+import express from "express";
+import mongoose from "mongoose";
+import router from './router';
+
+const PORT = process.env.PORT || 4000;
 
 const app = express();
-app.listen('4000', () => {
-    console.log('Server listening on port 4000');
-})
 
+app.use(express.json());
+app.use('/', router);
+
+mongoose.set("strictQuery", false);
+
+const start = async () => {
+    try {
+        await mongoose.connect('mongodb+srv://Lizaveta:Lizaveta@cluster0.fpbrnba.mongodb.net/?retryWrites=true&w=majority');
+        app.listen(PORT, () => {
+            console.log(`Server listening on port ${PORT}`);
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+start();
