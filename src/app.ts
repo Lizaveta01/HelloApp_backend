@@ -1,27 +1,23 @@
-import express from "express";
 import mongoose from "mongoose";
-import router from "./routes/router";
+import { port } from "./constants";
+import * as serverService from "./services/server";
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || port;
 
-const app = express();
-
-app.use(express.json());
-app.use("/", router);
-
-mongoose.set("strictQuery", false);
-
-const start = async () => {
+(async () => {
     try {
         await mongoose.connect(
             "mongodb+srv://Lizaveta:Lizaveta@cluster0.fpbrnba.mongodb.net/?retryWrites=true&w=majority"
         );
-        app.listen(PORT, () => {
+        serverService.server.listen(PORT, () => {
             console.log(`Server listening on port ${PORT}`);
         });
     } catch (err) {
         console.log(err);
     }
-};
+})();
 
-start();
+process.on("SIGINT", async () => {
+    await mongoose.disconnect();
+    process.exit();
+});
