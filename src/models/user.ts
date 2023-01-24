@@ -14,14 +14,11 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     registerDate: {
-        type: Date,
+        type: String,
         required: true,
-        default: Date.now(),
     },
     lastLoginDate: {
-        type: Date,
-        required: true,
-        default: Date.now(),
+        type: String,
     },
     status: {
         type: String,

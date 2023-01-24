@@ -1,22 +1,34 @@
 import express from "express";
-import * as userControllers from "../controllers/userControllers";
+
+import { deleteUser } from "../controllers/user/deleteUser";
+import { getAllUsers } from "../controllers/user/getAllUsers";
+import { getUser } from "../controllers/user/getUser";
+import { updateUser } from "../controllers/user/updateUser";
 import { authMiddleware } from "../middleware/authMiddleware";
 import { getUserMiddleware } from "../middleware/getUserMiddleware";
 
 const userRouter = express.Router();
 
-userRouter.get("/", authMiddleware, userControllers.getAllUsers);
+userRouter.get("/", authMiddleware, getAllUsers);
+
+userRouter.get(
+    "/:id",
+    authMiddleware,
+    getUserMiddleware,
+    getUser
+);
+
 userRouter.patch(
     "/:id",
     authMiddleware,
     getUserMiddleware,
-    userControllers.updateUser
+    updateUser
 );
 userRouter.delete(
     "/:id",
     authMiddleware,
     getUserMiddleware,
-    userControllers.deleteUser
+    deleteUser
 );
 
 export default userRouter;

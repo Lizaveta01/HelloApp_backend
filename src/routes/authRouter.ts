@@ -1,6 +1,7 @@
 import express from "express";
-import * as authContollers from '../controllers/authControllers';
 import { check } from "express-validator";
+import { login } from "../controllers/authorization/login";
+import { registration } from "../controllers/authorization/registration";
 
 const authRouter = express.Router();
 
@@ -11,8 +12,8 @@ authRouter.post(
         check("email", "Not valid email format").isEmail(),
         check("password", "Password can't be empty").notEmpty(),
     ],
-    authContollers.registration
+    registration
 );
-authRouter.post("/signin", authContollers.login);
+authRouter.post("/signin", login);
 
 export default authRouter;
