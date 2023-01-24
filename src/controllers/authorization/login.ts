@@ -19,6 +19,10 @@ export const login = async (req: Request, res: Response) => {
             return res.status(400).send(createError(401, "Password wrong"));
         }
 
+        if (user.status === "blocked") {
+            return res.status(403).send(createError(403, "User blocked"));
+        }
+
         const dateNow = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT);
         user.lastLoginDate = dateNow;
 
