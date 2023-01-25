@@ -33,6 +33,7 @@
     "luxon": "^3.2.1",
     "mongoose": "^6.8.4",
     "nodemon": "^2.0.20",
+    "prettier": "^2.8.3",
     "socket.io": "^4.5.4",
     "ts-node": "10.8.1",
     "ts-node-dev": "^1.1.8",

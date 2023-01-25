@@ -1,10 +1,14 @@
+import { Response, Request } from 'express';
+import { ServerResponse } from "../../constants";
 import { createError } from "../../utils/createError";
 
-export const deleteUser = async (req: any, res: any) => {
+const { USER_DELETED, SERVER_ERROR } = ServerResponse;
+
+export const deleteUser = async (req: Request, res: any) => {
     try {
         await res.user.remove();
-        res.status(200).json({ message: "Successfully deleted" });
+        res.status(200).json({ message: USER_DELETED });
     } catch (err) {
-        return res.status(500).send(createError(500, "Something went wrong"));
+        return res.status(500).send(createError(500, SERVER_ERROR));
     }
 };

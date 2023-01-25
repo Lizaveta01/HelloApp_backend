@@ -1,6 +1,10 @@
+import { Request, Response } from 'express';
 import { createError } from "../../utils/createError";
+import { ServerResponse } from "../../constants";
 
-export const getUser = async (req: any, res: any) => {
+const { SERVER_ERROR } = ServerResponse;
+
+export const getUser = async (req:  Request, res: any) => {
     try {
         const user = await res.user;
         res.status(200).json({
@@ -12,6 +16,6 @@ export const getUser = async (req: any, res: any) => {
             status: user.status,
         });
     } catch (err) {
-        return res.status(500).send(createError(500, "Something went wrong"));
+        return res.status(500).send(createError(500, SERVER_ERROR));
     }
 };

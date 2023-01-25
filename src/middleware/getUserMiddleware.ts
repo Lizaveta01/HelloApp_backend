@@ -1,15 +1,19 @@
-import User from "../models/user";
+import User from '../models/user';
+import { Request, Response, NextFunction } from 'express';
+import { IUser } from '../models/interfaces';
+import { ServerResponse } from '../constants';
 
-export const getUserMiddleware = async (req: any, res: any, next: any) => {
-    let user;
+const { SERVER_ERROR, USER_NOT_FOUND } = ServerResponse;
+
+export const getUserMiddleware = async (req: Request, res: any, next: NextFunction) => {
+    let user: IUser | null;
     try {
         user = await User.findById(req.params.id);
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(404).json({ message: USER_NOT_FOUND });
         }
     } catch (err) {
-        console.log(err);
-        return res.status(500).json({ message: "Something went wrong" });
+        return res.status(500).json({ message: SERVER_ERROR });
     }
     res.user = user;
     next();

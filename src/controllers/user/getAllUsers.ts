@@ -1,7 +1,11 @@
 import User from "../../models/user";
 import { createError } from "../../utils/createError";
+import { Request, Response } from 'express';
+import { ServerResponse } from "../../constants";
 
-export const getAllUsers = async (req: any, res: any) => {
+const { SERVER_ERROR } = ServerResponse;
+
+export const getAllUsers = async (req: Request, res: Response) => {
     try {
         const users = await User.find();
         const usersForResponse = users.map((user) => {
@@ -16,6 +20,6 @@ export const getAllUsers = async (req: any, res: any) => {
         });
         res.status(200).json(usersForResponse);
     } catch (err) {
-        return res.status(500).send(createError(500, "Something went wrong"));
+        return res.status(500).send(createError(500, SERVER_ERROR));
     }
 };

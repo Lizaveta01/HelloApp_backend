@@ -1,23 +1,25 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
+import { secret } from '../constants';
+import { ServerResponse } from '../constants';
 
-import { secret } from "../constants";
+const { AUTH_ERROR } = ServerResponse;
 
-
-export const authMiddleware = (req: any, res: any, next: any) => {
-    if (req.method === "OPTIONS") {
+export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+    if (req.method === 'OPTIONS') {
         next();
     }
 
     try {
-        const token = req.headers.authorization.split(" ")[1];
+        const token = req.headers.authorization!.split(' ')[1];
         if (!token) {
-            return res.status(403).json({ message: "User is not authorized" });
+            throw new Error();
         }
         const decodedData = jwt.verify(token, secret);
-        req.user = decodedData;
-        next();
+        if (decodedData) {
+            next();
+        }
     } catch (err) {
-        console.log(err);
-        return res.status(403).json({ message: "User is not authorized" });
+        return res.status(403).json({ message: AUTH_ERROR });
     }
 };
